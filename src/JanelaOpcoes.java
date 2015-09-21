@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 
 
 public class JanelaOpcoes extends JFrame {
+	JanelaMatriz janelaM;
+	
 	
 	JanelaOpcoes(){
 		super("Reciclador");
@@ -30,25 +32,31 @@ public class JanelaOpcoes extends JFrame {
      		this.add(b10x10);
      		this.add(b20x20);
      		this.add(b30x30);
+     		
+     		
+     		
+     	
 	}
 	
 	public class Matriz10x10 implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 
-			JanelaMatriz janelaM = new JanelaMatriz(10);
+			janelaM = new JanelaMatriz(10);
 			janelaM.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			janelaM.setSize(450,250);
 			janelaM.setVisible(true);
-			
+		
+		
 		}
+		
 		
 	}
 	public class Matriz20x20 implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 
-			JanelaMatriz janelaM = new JanelaMatriz(20);
+			janelaM = new JanelaMatriz(20);
 			janelaM.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			janelaM.setSize(750,400);
 
@@ -61,12 +69,15 @@ public class JanelaOpcoes extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 
-			JanelaMatriz janelaM = new JanelaMatriz(30);
+			janelaM = new JanelaMatriz(30);
 			janelaM.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			janelaM.setSize(950,570);
 			janelaM.setVisible(true);
 			
+
 		}
+		
+		
 		
 	}
 
