@@ -14,6 +14,7 @@ public class JanelaOpcoes extends JFrame {
 	JanelaMatriz janelaM;
 	
 	
+	
 	JanelaOpcoes(){
 		super("Reciclador");
 		
@@ -33,9 +34,13 @@ public class JanelaOpcoes extends JFrame {
      		this.add(b20x20);
      		this.add(b30x30);
      		
-     		
+     	
      		
      	
+	}
+	
+	public void fechaOpcoes(){ //Fecha janela Opções após escolher um tipo de matriz
+		this.dispose();
 	}
 	
 	public class Matriz10x10 implements ActionListener {
@@ -46,7 +51,9 @@ public class JanelaOpcoes extends JFrame {
 			janelaM.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			janelaM.setSize(450,250);
 			janelaM.setVisible(true);
-		
+			janelaM.setResizable(false);
+			fechaOpcoes();
+			
 		
 		}
 		
@@ -59,8 +66,9 @@ public class JanelaOpcoes extends JFrame {
 			janelaM = new JanelaMatriz(20);
 			janelaM.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			janelaM.setSize(750,400);
-
 			janelaM.setVisible(true);
+			janelaM.setResizable(false);
+			fechaOpcoes();
 			
 		}
 		
@@ -73,6 +81,8 @@ public class JanelaOpcoes extends JFrame {
 			janelaM.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			janelaM.setSize(950,570);
 			janelaM.setVisible(true);
+			janelaM.setResizable(false);
+			fechaOpcoes();
 			
 
 		}

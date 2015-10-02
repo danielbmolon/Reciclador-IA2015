@@ -154,8 +154,9 @@ public class JanelaMatriz extends JFrame {
 	}
 
 	public void coletar() {
-	
-		int c = 0;
+		//catador  = 0 -- primeiro catador, durante o while que seta catadores conforme valor de c
+		//no final do laço, testa se c não é maior que o numero de catadores, caso seja, zera c e começa as ações novamente.
+		int c = 0; 
 		
 		
 		while(true){
@@ -168,6 +169,7 @@ public class JanelaMatriz extends JFrame {
 		//pega o conteudo das celulas ao redor
 		
 		//[cima+2][cima+1][baixo+2][baixo+1][esq+2][esq+1][dir+2][dir+1]
+		// X == Fora da matriz
 		if(linha - 2 >= 0){
 		  direcoes[0] = valores[linha - 2][coluna].toString();
 		} else direcoes[0] = "X";
@@ -205,24 +207,21 @@ public class JanelaMatriz extends JFrame {
 
 		// editar
 
+		//se linha a ir != linha atual 
 		if (posicao[0] != c1[c].getLinha()) {
-			if (posicao[0] < c1[c].getLinha()) { //subir
-				for (int li = c1[c].getLinha() - 1; li >= posicao[0]; li--) {
+			if (posicao[0] < c1[c].getLinha()) { //se linha a ir menor que linha atual -> subir
+				for (int li = c1[c].getLinha() - 1; li >= posicao[0]; li--) { //anda atá a posição com lixo
 					
 					andar(c,li,c1[c].getColuna());
 
-					//Painel.updateUI();
-					//this.repaint();
 					
 					System.out.println(posicao[0] + "-" + posicao[1] + " || " + c1[c].getLinha() + " - "+ c1[c].getColuna());
 				}
-			}else if (posicao[0] > c1[c].getLinha()) { //descer
+			}else if (posicao[0] > c1[c].getLinha()) { //se linha a ir maior que linha atual -> descer
 				for (int li = c1[c].getLinha() + 1; li <= posicao[0]; li++) {
 					
 					andar(c,li,c1[c].getColuna());
 
-					//Painel.updateUI();
-					//this.repaint();
 					
 					System.out.println(posicao[0] + "-" + posicao[1] + " || " + c1[c].getLinha() + " - "+ c1[c].getColuna());
 				}
@@ -255,13 +254,13 @@ public class JanelaMatriz extends JFrame {
 			int cl = c1[c].getColuna();
 			
 			switch(direcao){
-				//case 1 : if(li + 2 < valores.length) li += 2  ; break;
+				
 				case 1 : if(li + 1 < valores.length) li += 1 ; break;
-				//case 3 : if(cl + 2 < valores[0].length) cl += 2 ; break;
+				
 				case 2 : if(cl + 1 < valores[0].length) cl += 1 ; break;
-				//case 5 : if(li - 2 >= 0) li -= 2  ; break;
+				
 				case 3 : if(li - 1 >= 0) li -= 1 ; break;
-				//case 7 : if(cl - 2 >= 0) cl -= 2 ; break;
+				
 				case 4 : if(cl - 1 >= 0) cl -= 1 ; break;
 			}
 			
@@ -273,6 +272,7 @@ public class JanelaMatriz extends JFrame {
 		if(c < c1.length-1){
 			c++;
 		}else c = 0;
+		
 		System.out.println("C : " + c);
 		}
 		
@@ -286,17 +286,16 @@ public class JanelaMatriz extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		
 		valores[c1[reciclador].getLinha()][c1[reciclador].getColuna()] = "";
 		c1[reciclador].setPosicao(linha, coluna);
-		//table = new JTable(valores, colunas);
+		
 		valores[linha][coluna] = "A";
 		this.repaint();
 	}
 
 	
-	//faz a mágica do toco e me voy
+
 
 	public class Start implements ActionListener {
 
