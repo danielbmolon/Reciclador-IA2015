@@ -98,7 +98,7 @@ public class Reciclador {
 	//retorna verdadeiro se possui um obstaculo na posicao enviada
 	public boolean getObstaculo(int posicao){
 		
-		if(this.vetor[posicao] == "A" || this.vetor[posicao] == "Lo" || this.vetor[posicao] == "Ls" ){
+		if(this.vetor[posicao] == "A" || this.vetor[posicao] == "Lo" || this.vetor[posicao] == "Ls"){
 			return true;
 		}
 		
