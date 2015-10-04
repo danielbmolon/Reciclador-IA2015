@@ -110,7 +110,7 @@ public class JanelaMatriz extends JFrame {
 			valores[3][16] = "Ls";
 			posicaoLixeirasLs[2] = 3;
         	posicaoLixeirasLs[3] = 16;
-        	lixeiras[2] = new Lixeira("3", "Ls", "3", "13", "0"); //seta lixeira
+        	lixeiras[2] = new Lixeira("3", "Ls", "3", "16", "0"); //seta lixeira
         	
 			valores[16][3] = "Lo";
 			posicaoLixeirasLo[2] = 16;
@@ -256,6 +256,10 @@ public class JanelaMatriz extends JFrame {
 		
 		
 		while(true){
+			//somente para ver a quantidade de lixo na lixeira
+			System.out.println(lixeiras[0].matrizLixeira[0] + ": " + lixeiras[0].getQuantidadeLixo() + "  " + lixeiras[1].matrizLixeira[0] + ": " + lixeiras[1].getQuantidadeLixo() + "   " + 
+			lixeiras[2].matrizLixeira[0] + ": " + lixeiras[2].getQuantidadeLixo() + "  " + lixeiras[3].matrizLixeira[0] + ": " + lixeiras[3].getQuantidadeLixo());
+			
 			
 		int linha = r1[c].getLinha();
 		int coluna = r1[c].getColuna();
@@ -266,7 +270,7 @@ public class JanelaMatriz extends JFrame {
 		
 		//[cima+2][cima+1][baixo+2][baixo+1][esq+2][esq+1][dir+2][dir+1]
 		// X == Fora da matriz
-		if(linha - 2 >= 0){
+		if(linha - 2 >= 0){ //cima +2
 		  direcoes[0] = valores[linha - 2][coluna].toString();
 		} else direcoes[0] = "X";
 		
@@ -278,7 +282,7 @@ public class JanelaMatriz extends JFrame {
 			  direcoes[2] = valores[linha + 2][coluna].toString();
 		} else direcoes[2] = "X";
 		
-		if(linha + 1 < valores.length){
+		if(linha + 1 < valores.length){ //baixo +1
 			  direcoes[3] = valores[linha + 1][coluna].toString();
 		} else direcoes[3] = "X";
 							
@@ -352,15 +356,16 @@ public class JanelaMatriz extends JFrame {
 			int li = r1[c].getLinha();
 			int cl = r1[c].getColuna();
 			
+			// [linha][coluna][cima+2][cima+1][baixo+2][baixo+1][esq+2][esq+1][dir+2][dir+1][contSeco][contOrg][tamSacoLixo]
 			switch(direcao){
 				
-				case 1 : if(li + 1 < valores.length) li += 1 ; break;
+				case 1 : if(li + 1 < valores.length && !r1[c].getObstaculo(5)) li += 1 ; break; //5 == baixo +1
 				
-				case 2 : if(cl + 1 < valores[0].length) cl += 1 ; break;
+				case 2 : if(cl + 1 < valores[0].length && !r1[c].getObstaculo(9)) cl += 1 ; break; //9 == direita +1
 				
-				case 3 : if(li - 1 >= 0) li -= 1 ; break;
+				case 3 : if(li - 1 >= 0 && !r1[c].getObstaculo(3)) li -= 1 ; break; //3 == cima +1
 				
-				case 4 : if(cl - 1 >= 0) cl -= 1 ; break;
+				case 4 : if(cl - 1 >= 0 && !r1[c].getObstaculo(7)) cl -= 1 ; break; //7 == esquerda +1
 			}
 			
 			andar(c,li,cl);
@@ -391,8 +396,9 @@ public class JanelaMatriz extends JFrame {
 		valores[r1[reciclador].getLinha()][r1[reciclador].getColuna()] = "";
 		r1[reciclador].setPosicao(linha, coluna);
 		
-		
-		valorCelula = valores[linha][coluna].toString();
+		if(valores[linha][coluna].toString() == "o" || valores[linha][coluna].toString() == "s"){
+			valorCelula = valores[linha][coluna].toString();
+		}
 		valores[linha][coluna] = "A";
 		
 		if(valorCelula == "o"){
@@ -405,7 +411,8 @@ public class JanelaMatriz extends JFrame {
 				}
 				
 			}
-		}else if(valorCelula == "s"){
+		}
+		if(valorCelula == "s"){
 			if(!r1[reciclador].sacoLixoCheio("s")){ //inverte o retorno (!) para entrar no if caso nao cheio
 				r1[reciclador].setSacoLixo("s");
 				
@@ -430,12 +437,13 @@ public class JanelaMatriz extends JFrame {
 		
 		//pega posicao da lixeira mais proxima
 		if (lixeira == "Lo") { 
-			posicaoLixeira = r1[reciclador].lixeiraMaisproxima(posicaoLixeirasLo);
+			posicaoLixeira = r1[reciclador].lixeiraMaisproxima("Lo",lixeiras);
 		}else{
-			posicaoLixeira = r1[reciclador].lixeiraMaisproxima(posicaoLixeirasLs);
+			posicaoLixeira = r1[reciclador].lixeiraMaisproxima("Ls",lixeiras);
 		}
 		
-		int lixeiraId = getLixeiraId(posicaoLixeira[0], posicaoLixeira[1]); //retorna posicao da lixeira na matriz de lixeiras
+		System.out.println("Lixeira ID: " + posicaoLixeira[0] + " , " + posicaoLixeira[1]);
+		int lixeiraId = getLixeiraId(posicaoLixeira[0], posicaoLixeira[1],lixeira); //retorna posicao da lixeira na matriz de lixeiras
 		
 		if (!lixeiras[lixeiraId].lixeiraCheia()) { //testa se lixeira cheia (!)
 			// se linha maior que a poiscao da lixeira, caminha pra tras, se nao
@@ -453,7 +461,7 @@ public class JanelaMatriz extends JFrame {
 			// se coluna maior que a poiscao da lixeira, caminha pra tras, se
 			// nao caminha pra frente
 			if (coluna > posicaoLixeira[1]) {
-				for (int c = coluna; c >= posicaoLixeira[1]; c--) {
+				for (int c = coluna; c > posicaoLixeira[1]; c--) {
 					andar(reciclador, r1[reciclador].getLinha(), c);
 				}
 
@@ -466,18 +474,23 @@ public class JanelaMatriz extends JFrame {
 			
 			System.out.println("Larguei o lixo " + lixeira);
 			//valores[r1[reciclador].getLinha()][r1[reciclador].getColuna()] = lixeira + " A"; //mudar isso
-			r1[reciclador].zeraSacoLixo(lixeira);// zera quantidade do saco de
+			// zera quantidade do saco de
 													// lixo
 
-			//soma contador de lixo
-			lixeiras[lixeiraId].setLixo();
+			// soma contador de lixo
+			if (lixeiras[lixeiraId].getTipo() == "Lo") {
+				lixeiras[lixeiraId].setLixo(r1[reciclador].getSacoLixo("o"));
+				r1[reciclador].zeraSacoLixo(lixeira);
+			} else {
+				lixeiras[lixeiraId].setLixo(r1[reciclador].getSacoLixo("s"));
+				r1[reciclador].zeraSacoLixo(lixeira);
+			}
+			
 			
 			System.out.println("Lixos:" + lixeiras[lixeiraId].getQuantidadeLixo() );
 			System.out.println("Saco lixo Lo: " + r1[reciclador].getSacoLixo("o") + " Saco lixo Ls: " + r1[reciclador].getSacoLixo("s"));
 			
 			
-			//coloca Ls ou Lo - verificar se precisa
-			//valores[r1[reciclador].getLinha()][r1[reciclador].getColuna()] = lixeira;
 		}else{
 			//tem que mudar para uma funcao que faca andar pra outro lado
 			andar(reciclador,r1[reciclador].getLinha(),r1[reciclador].getColuna()); 
@@ -485,10 +498,10 @@ public class JanelaMatriz extends JFrame {
 			
 	}
 	 
-	public int getLixeiraId(int linha, int coluna){
-	int posicao = 0;
+	public int getLixeiraId(int linha, int coluna, String tipo){
+	int posicao = lixeiras.length;
 		for(int i = 0; i < lixeiras.length; i++){
-			if(linha == lixeiras[i].getLinhaLixeira() && coluna == lixeiras[i].getColunaLixeira()){
+			if(linha == lixeiras[i].getLinhaLixeira() && coluna == lixeiras[i].getColunaLixeira() && tipo == lixeiras[i].getTipo()){
 				posicao = i;
 			}
 		}

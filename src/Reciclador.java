@@ -2,13 +2,13 @@ import java.util.ArrayList;
 
 public class Reciclador {
 
-	// [linha][coluna][cima+2][cima+1][baixo+2][baixo+1][esq+2][esq+1][dir+2][dir+1][contSeco][contOrg]
+	// [linha][coluna][cima+2][cima+1][baixo+2][baixo+1][esq+2][esq+1][dir+2][dir+1][contSeco][contOrg][tamSacoLixo]
 
 	// adicionar posicao das lixeiras
 
-	String vetor[] = new String[12];
+	String vetor[] = new String[13];
 	
-	int tamSacoLixo; //Guarda o tamanho do saco de lixo
+	
 
 	Reciclador(int linha, int coluna) {
 		this.vetor[0] = linha + "";
@@ -19,7 +19,7 @@ public class Reciclador {
 		
 		
 		
-		this.tamSacoLixo = 3; //Guarda o tamanho do saco de lixo
+		this.vetor[12] = "3"; //Guarda o tamanho do saco de lixo
 	}
 	
 	//apagar Aqui DANIEL
@@ -32,7 +32,7 @@ public class Reciclador {
 		this.vetor[12] = andar + "";
 	}*/
 	
-
+	
 	public String[] getVetor() {
 		return vetor;
 	}
@@ -44,7 +44,7 @@ public class Reciclador {
 	//seta campo de visão e seus conteudos
 		public void setDirecoes(String[] direcoes) { //v = 2, porque direções do campo de visão começa na posição 2, posição 0 e 1 é a posição atual 
 
-			for (int v = 2, d = 0; v < this.vetor.length - 2; v++, d++) {
+			for (int v = 2, d = 0; d < direcoes.length; v++, d++) {
 				this.vetor[v] = direcoes[d];
 			}
 
@@ -64,28 +64,28 @@ public class Reciclador {
 		int[] posicao = { Integer.parseInt(this.vetor[0].toString()), //pega posição atual
 				Integer.parseInt(this.vetor[1].toString()) };
 
-		if (this.vetor[2].toString() == "s" || this.vetor[2].toString() == "o") { //testa se cima+2 tem lixo
+		if ((this.vetor[2].toString() == "s" || this.vetor[2].toString() == "o") && !(getObstaculo(3))) { //testa se cima+2 tem lixo e se posicao abaixo tem obstaculo
 			posicao[0] = Integer.parseInt(this.vetor[0].toString()) - 2;
 		} 
-		else if (this.vetor[3].toString() == "s" || this.vetor[3].toString() == "o") { //testa se cima+1 tem lixo
+		 if (this.vetor[3].toString() == "s" || this.vetor[3].toString() == "o") { //testa se cima+1 tem lixo
 			posicao[0] = Integer.parseInt(this.vetor[0].toString()) - 1;
 		} 
-		else if (this.vetor[4].toString() == "s" || this.vetor[4].toString() == "o") { //testa se baixo+2 tem lixo
+		 if ((this.vetor[4].toString() == "s" || this.vetor[4].toString() == "o") && !(getObstaculo(5))) { //testa se baixo+2 tem lixo
 			posicao[0] = Integer.parseInt(this.vetor[0].toString()) + 2;
 		}
-		else if (this.vetor[5].toString() == "s" || this.vetor[5].toString() == "o") { //testa se baixo+1 tem lixo
+		 if (this.vetor[5].toString() == "s" || this.vetor[5].toString() == "o") { //testa se baixo+1 tem lixo
 			posicao[0] = Integer.parseInt(this.vetor[0].toString()) + 1;
 		}
-		else if (this.vetor[6].toString() == "s" || this.vetor[6].toString() == "o") { //testa se esq+2 tem lixo
+		 if ((this.vetor[6].toString() == "s" || this.vetor[6].toString() == "o") && !(getObstaculo(7))) { //testa se esq+2 tem lixo
 			posicao[1] = Integer.parseInt(this.vetor[1].toString()) - 2;
 		}
-		else if (this.vetor[7].toString() == "s" || this.vetor[7].toString() == "o") { //testa se esq+1 tem lixo
+		 if (this.vetor[7].toString() == "s" || this.vetor[7].toString() == "o") { //testa se esq+1 tem lixo
 			posicao[1] = Integer.parseInt(this.vetor[1].toString()) - 1;
 		} 
-		else if (this.vetor[8].toString() == "s" || this.vetor[8].toString() == "o") { //testa se dir+2 tem lixo
+		 if ((this.vetor[8].toString() == "s" || this.vetor[8].toString() == "o") && !(getObstaculo(9))) { //testa se dir+2 tem lixo
 			posicao[1] = Integer.parseInt(this.vetor[1].toString()) + 2;
 		}
-		else if (this.vetor[9].toString() == "s" || this.vetor[9].toString() == "o") { //testa se dir+1 tem lixo
+		 if (this.vetor[9].toString() == "s" || this.vetor[9].toString() == "o") { //testa se dir+1 tem lixo
 			posicao[1] = Integer.parseInt(this.vetor[1].toString()) + 1;
 		}
 
@@ -93,6 +93,16 @@ public class Reciclador {
 
 		return posicao; //retorna posição que tem lixo no campo de visão, caso não tenha, retorna posição atual
 
+	}
+	
+	//retorna verdadeiro se possui um obstaculo na posicao enviada
+	public boolean getObstaculo(int posicao){
+		
+		if(this.vetor[posicao] == "A" || this.vetor[posicao] == "Lo" || this.vetor[posicao] == "Ls" ){
+			return true;
+		}
+		
+		return false;
 	}
 
 	//salva a posição do reciclador
@@ -109,6 +119,12 @@ public class Reciclador {
 	//retorna coluna
 	public int getColuna() {
 		return Integer.parseInt(this.vetor[1].toString());
+	}
+	
+	
+	//retorna tamanho do saco de lixo (quanto cabe)
+	public int getTamanhoSacolixo(){
+		return Integer.parseInt(this.vetor[12].toString());
 	}
 	
 	//retorna quantidade de lixo no saco 
@@ -140,8 +156,8 @@ public class Reciclador {
 	
 	public boolean sacoLixoCheio(String lixo){ // testa se saco de lixo esta cheio,  deve ser passado o tipo de lixo a ser testado
 		
-		
-		if(this.tamSacoLixo <= getSacoLixo(lixo)){
+		//tamnho do saco de lixo nao for maior que a quantidade de lixo, retorna false = nao esta cheio
+		if(getTamanhoSacolixo() <= getSacoLixo(lixo)){
 			return true; //se o saco de lixo cheio retorna verdadeiro
 		}
 		
@@ -158,12 +174,13 @@ public class Reciclador {
 	}
 	
 	//Procura lixeira mais proxima
-	public int[] lixeiraMaisproxima(int [] pLixeiras){ //pLixeiras = posicao das lixeiras
-		int [] posicaoLixeiras = pLixeiras; //pega posicao das lixeiras
+	public int[] lixeiraMaisproxima(String tipo, Lixeira [] lix){ //pLixeiras = posicao das lixeiras
+		Lixeira [] lixeiras = lix;
+		ArrayList<Integer> posicaoLixeiras = new ArrayList<Integer>();// = pLixeiras; //pega posicao das lixeiras
 		ArrayList<Integer> distancias = new ArrayList<Integer>();
 		int difLinha;
 		int difColuna;
-		int diferenca;
+		int distancia;
 		
 		int posicao;
 		int menorDistancia;
@@ -171,23 +188,32 @@ public class Reciclador {
 		//onde sera salvo a posicao da lixeira
 		int[] lixeiraProxima = new int [2];
 		
-		for (int i = 0; i < posicaoLixeiras.length; i++) {
-			difLinha = getLinha() - posicaoLixeiras[i];
+		for(int l=0; l < lixeiras.length; l++){
+			//se nao estiver cheia insere no array de posicoes 
+			if((!lixeiras[l].lixeiraCheia()) && lixeiras[l].getTipo() == tipo){
+				posicaoLixeiras.add(lixeiras[l].getLinhaLixeira());
+				posicaoLixeiras.add(lixeiras[l].getColunaLixeira());
+			}
+		}
+		
+		
+		for (int i = 0; i < posicaoLixeiras.size(); i++) {
+			difLinha = getLinha() - posicaoLixeiras.get(i);
 
 			if (difLinha < 0)
 				difLinha = difLinha * (-1); // se negativo, tira o sinal
 
-			difColuna = getColuna() - posicaoLixeiras[i++];
+			difColuna = getColuna() - posicaoLixeiras.get(i++);
 
 			if (difColuna < 0)
 				difColuna = difColuna * (-1); // se negativo, tira o sinal
 
-			diferenca = difLinha - difColuna;
+			distancia = difLinha + difColuna;
 
-			if (diferenca < 0)
-				diferenca = diferenca * (-1); // se negativo, tira o sinal
+			if (distancia < 0)
+				distancia = distancia * (-1); // se negativo, tira o sinal
 
-			distancias.add(diferenca);
+			distancias.add(distancia);
 
 		}
 		
@@ -204,8 +230,8 @@ public class Reciclador {
 		}
 		
 		
-		lixeiraProxima[0] = posicaoLixeiras[posicao * 2]; //calculo para pegar a linha
-		lixeiraProxima[1] = posicaoLixeiras[(posicao * 2) + 1]; //calculo para pegar a coluna
+		lixeiraProxima[0] = posicaoLixeiras.get(posicao * 2); //calculo para pegar a linha
+		lixeiraProxima[1] = posicaoLixeiras.get((posicao * 2) + 1); //calculo para pegar a coluna
 		
 		return lixeiraProxima;
 	}
