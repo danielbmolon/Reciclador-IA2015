@@ -11,6 +11,7 @@ public class JanelaMatriz extends JFrame {
 	private JTable table;
 	private JScrollPane scrollPane;
 	private JButton start;
+	private JLabel ciclos;
 	protected Object[][] valores;
 	Object[] colunas;
 	Reciclador[] r1;
@@ -18,6 +19,7 @@ public class JanelaMatriz extends JFrame {
 	int[] posicaoLixeirasLo;
 	int nAgentes; // Guarda o numero de agentes dependendo do tamanho da matriz
 	int nLixos; // Guarda o numero de lixo dependendo do tamanho da matriz
+	int contCiclos; // Conta o numero de ciclos
 
 	Lixeira[] lixeiras;
 
@@ -238,13 +240,17 @@ public class JanelaMatriz extends JFrame {
 			}
 		}
 
+		ciclos = new JLabel("Ciclos: " + contCiclos);
+
 		// Cria o JTable
 		table = new JTable(valores, colunas);
 		table.setEnabled(false);
 
 		// Adiciona o JTable dentro do painel
 		scrollPane = new JScrollPane(table);
-		topPanel.add(scrollPane, BorderLayout.CENTER);
+		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.PAGE_AXIS));
+		topPanel.add(scrollPane);
+		topPanel.add(ciclos);
 
 		start = new JButton("COMECAR!");
 
@@ -283,8 +289,11 @@ public class JanelaMatriz extends JFrame {
 						+ lixeiras[2].getQuantidadeLixo() + "  "
 						+ lixeiras[3].matrizLixeira[0] + ": "
 						+ lixeiras[3].getQuantidadeLixo());
-				
-				System.out.println("Agente1: " + r1[0].getSacoLixo("o") + ", " + r1[0].getSacoLixo("s") + " - " + "Agente2: " + r1[1].getSacoLixo("o") + ", " + r1[1].getSacoLixo("s"));
+
+				System.out.println("Agente1: " + r1[0].getSacoLixo("o") + ", "
+						+ r1[0].getSacoLixo("s") + " - " + "Agente2: "
+						+ r1[1].getSacoLixo("o") + ", "
+						+ r1[1].getSacoLixo("s"));
 				int linha = r1[c].getLinha();
 				int coluna = r1[c].getColuna();
 				String[] direcoes = new String[8];
@@ -367,7 +376,8 @@ public class JanelaMatriz extends JFrame {
 									+ r1[c].getColuna());
 						}
 					}
-					}if(posicao[1] != r1[c].getColuna()){
+				}
+				if (posicao[1] != r1[c].getColuna()) {
 
 					if (posicao[1] < r1[c].getColuna()) { // esquerda
 						for (int cl = r1[c].getColuna() - 1; posicao[1] <= cl; cl--) {
@@ -394,9 +404,9 @@ public class JanelaMatriz extends JFrame {
 									+ r1[c].getColuna());
 						}
 					}
-				} 
-					//direcao randomica
-					else {
+				}
+				// direcao randomica
+				else {
 					Random sort = new Random();
 					int direcao = sort.nextInt(4) + 1;
 
@@ -437,11 +447,17 @@ public class JanelaMatriz extends JFrame {
 
 				if (c < r1.length - 1) {
 					c++;
-				} else
+				} else{
 					c = 0;
-
+					
+					//Soma 1 ciclos
+					ciclos.setText("Ciclos: " + contCiclos++);
+				
+				}
 				System.out.println("C : " + c);
 			}
+
+
 		}
 
 	}
@@ -450,12 +466,12 @@ public class JanelaMatriz extends JFrame {
 		String valorCelula = "";
 
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		valores[r1[reciclador].getLinha()][r1[reciclador].getColuna()] = "";
 		r1[reciclador].setPosicao(linha, coluna);
 
@@ -527,16 +543,16 @@ public class JanelaMatriz extends JFrame {
 			// caminha pra frente
 			if (linha > posicaoLixeira[0]) {
 				for (int l = linha; l >= posicaoLixeira[0]; l--) {
-					//if(!r1[reciclador].getObstaculo(3)){
-						andar(reciclador, l, r1[reciclador].getColuna());
-					//}else break;
+					// if(!r1[reciclador].getObstaculo(3)){
+					andar(reciclador, l, r1[reciclador].getColuna());
+					// }else break;
 				}
 			} else if (linha < posicaoLixeira[0]) {
 				for (int l = linha; l <= posicaoLixeira[0]; l++) {
-					//if(!r1[reciclador].getObstaculo(5)){
-						andar(reciclador, l, r1[reciclador].getColuna());
-					//}else break;
-					
+					// if(!r1[reciclador].getObstaculo(5)){
+					andar(reciclador, l, r1[reciclador].getColuna());
+					// }else break;
+
 				}
 			}
 
@@ -544,16 +560,17 @@ public class JanelaMatriz extends JFrame {
 			// nao, caminha pra frente
 			if (coluna > posicaoLixeira[1]) {
 				for (int c = coluna; c > posicaoLixeira[1]; c--) {
-					//if(!r1[reciclador].getObstaculo(9)){ //testa se tem obstaculo
-						andar(reciclador, r1[reciclador].getLinha(), c);
-					//}else break;
+					// if(!r1[reciclador].getObstaculo(9)){ //testa se tem
+					// obstaculo
+					andar(reciclador, r1[reciclador].getLinha(), c);
+					// }else break;
 				}
 
 			} else if (coluna < posicaoLixeira[1]) {
 				for (int c = coluna; c < posicaoLixeira[1]; c++) {
-				//	if(!r1[reciclador].getObstaculo(7)){
-						andar(reciclador, r1[reciclador].getLinha(), c);
-					//}else break;
+					// if(!r1[reciclador].getObstaculo(7)){
+					andar(reciclador, r1[reciclador].getLinha(), c);
+					// }else break;
 				}
 			}
 
@@ -563,7 +580,7 @@ public class JanelaMatriz extends JFrame {
 			// zera quantidade do saco de
 			// lixo
 
-			//PROBLEMA se der break no anterior ele para, mas seta na lixeira
+			// PROBLEMA se der break no anterior ele para, mas seta na lixeira
 			// soma contador de lixo
 			if (lixeiras[lixeiraId].getTipo() == "Lo") {
 				lixeiras[lixeiraId].setLixo(r1[reciclador].getSacoLixo("o"));
