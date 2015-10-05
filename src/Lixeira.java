@@ -44,4 +44,7 @@ public class Lixeira {
 	public int getQuantidadeLixo(){
 		return Integer.parseInt(matrizLixeira[3]);
 	}
+	public int getTamanho(){
+		return Integer.parseInt(matrizLixeira[4]);
+	}
 }

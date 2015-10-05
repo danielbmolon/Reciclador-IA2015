@@ -49,7 +49,7 @@ public class JanelaOpcoes extends JFrame {
 
 			janelaM = new JanelaMatriz(10);
 			janelaM.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			janelaM.setSize(450,250);
+			janelaM.setSize(470,400);
 			janelaM.setVisible(true);
 			janelaM.setResizable(false);
 			fechaOpcoes();
@@ -65,7 +65,7 @@ public class JanelaOpcoes extends JFrame {
 
 			janelaM = new JanelaMatriz(20);
 			janelaM.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			janelaM.setSize(750,400);
+			janelaM.setSize(750,580);
 			janelaM.setVisible(true);
 			janelaM.setResizable(false);
 			fechaOpcoes();
@@ -79,7 +79,7 @@ public class JanelaOpcoes extends JFrame {
 
 			janelaM = new JanelaMatriz(30);
 			janelaM.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			janelaM.setSize(950,570);
+			janelaM.setSize(950,800);
 			janelaM.setVisible(true);
 			janelaM.setResizable(false);
 			fechaOpcoes();

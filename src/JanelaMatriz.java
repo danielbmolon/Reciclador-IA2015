@@ -12,6 +12,7 @@ public class JanelaMatriz extends JFrame {
 	private JScrollPane scrollPane;
 	private JButton start;
 	private JLabel ciclos;
+	private TextArea legendas;
 	protected Object[][] valores;
 	Object[] colunas;
 	Reciclador[] r1;
@@ -37,6 +38,8 @@ public class JanelaMatriz extends JFrame {
 		Painel.setLayout(new BorderLayout());
 		getContentPane().add(Painel);
 		Painel.add(topPanel, BorderLayout.CENTER);
+		
+		legendas = new TextArea("Legenda");
 
 		// Cria os nomes das colunas
 
@@ -220,6 +223,7 @@ public class JanelaMatriz extends JFrame {
 			// Se a posição tiver vazia add o lixo
 			if (valores[s1][s2] == "") {
 				valores[s1][s2] = "s";
+				legendas.append("\nLixo S: L: " + s1 + " C: " + s2);
 			} else {
 				i--;
 			}
@@ -235,12 +239,16 @@ public class JanelaMatriz extends JFrame {
 			// Se a posição tiver vazia add o lixo
 			if (valores[s1][s2] == "") {
 				valores[s1][s2] = "o";
+				legendas.append("\nLixo O: L: " + s1 + " C: " + s2);
 			} else {
 				i--;
 			}
 		}
+		
+		
 
 		ciclos = new JLabel("Ciclos: " + contCiclos);
+
 
 		// Cria o JTable
 		table = new JTable(valores, colunas);
@@ -251,6 +259,7 @@ public class JanelaMatriz extends JFrame {
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.PAGE_AXIS));
 		topPanel.add(scrollPane);
 		topPanel.add(ciclos);
+		topPanel.add(legendas);
 
 		start = new JButton("COMECAR!");
 
@@ -456,8 +465,14 @@ public class JanelaMatriz extends JFrame {
 				}
 				System.out.println("C : " + c);
 			}
-
-
+			
+			legendas.setText("Legendas: ");
+			for(int z=0; z < lixeiras.length; z++){
+				legendas.append("\n" + lixeiras[z].getTipo() + " - Posição: L: " + lixeiras[z].getColunaLixeira() + " C: " + lixeiras[z].getColunaLixeira() + " - Capacidade: " + lixeiras[z].getTamanho() + " - Qnt Lixo: " + lixeiras[z].getQuantidadeLixo());
+			}
+			for(int z=0; z < r1.length; z++){
+				legendas.append("\nAgente - Posição: L: " + r1[z].getLinha() + " C:" + r1[z].getColuna() + " - Capacidade: " + r1[z].getTamanhoSacolixo() + " - Qnt Lixo S: " + r1[z].getSacoLixo("s") + " O: " + r1[z].getSacoLixo("o"));
+			}
 		}
 
 	}
@@ -466,7 +481,7 @@ public class JanelaMatriz extends JFrame {
 		String valorCelula = "";
 
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -637,4 +652,7 @@ public class JanelaMatriz extends JFrame {
 
 	}
 
+
 }
+
+
