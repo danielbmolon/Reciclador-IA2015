@@ -81,7 +81,7 @@ public class JanelaOpcoes extends JFrame {
 			janelaM.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			janelaM.setSize(950,800);
 			janelaM.setVisible(true);
-			janelaM.setResizable(false);
+			//janelaM.setResizable(false);
 			fechaOpcoes();
 			
 
