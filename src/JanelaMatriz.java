@@ -21,11 +21,12 @@ public class JanelaMatriz extends JFrame {
 	int nAgentes; // Guarda o numero de agentes dependendo do tamanho da matriz
 	int nLixos; // Guarda o numero de lixo dependendo do tamanho da matriz
 	int contCiclos; // Conta o numero de ciclos
-
+	int tamanho = 0;
 	Lixeira[] lixeiras;
 
 	public JanelaMatriz(int tamanho) {
 
+		this.tamanho = tamanho;
 		// configuração do JFrame
 		setTitle("Reciclador");
 		setBackground(Color.gray);
@@ -473,6 +474,8 @@ public class JanelaMatriz extends JFrame {
 			for(int z=0; z < r1.length; z++){
 				legendas.append("\nAgente - Posição: L: " + r1[z].getLinha() + " C:" + r1[z].getColuna() + " - Capacidade: " + r1[z].getTamanhoSacolixo() + " - Qnt Lixo S: " + r1[z].getSacoLixo("s") + " O: " + r1[z].getSacoLixo("o"));
 			}
+			
+			
 		}
 
 	}
@@ -530,6 +533,8 @@ public class JanelaMatriz extends JFrame {
 
 			}
 		}
+		
+		setLixeiras();
 
 		this.repaint();
 	}
@@ -652,6 +657,55 @@ public class JanelaMatriz extends JFrame {
 
 	}
 
+	
+	
+	
+
+	
+	public void setLixeiras(){
+		if(tamanho == 10){
+			valores[2][2] = "Ls";
+			
+			valores[7][7] = "Ls";
+			
+			valores[2][7] = "Lo";
+			
+			valores[7][2] = "Lo";
+			
+		}else if(tamanho == 20){
+			valores[3][3] = "Ls";
+
+			valores[3][10] = "Lo";
+
+			valores[3][16] = "Ls";
+
+			valores[16][3] = "Lo";
+			valores[16][10] = "Ls";
+			valores[16][16] = "Lo";
+			
+
+		}else if(tamanho == 30){
+			
+			valores[3][6] = "Ls";
+
+			valores[3][15] = "Lo";
+
+			valores[3][23] = "Ls";
+
+			valores[16][6] = "Lo";
+
+			valores[16][23] = "Ls";
+
+			valores[27][6] = "Lo";
+
+			valores[27][15] = "Ls";
+
+			valores[27][23] = "Lo";
+							
+		}
+	
+	
+	}
 
 }
 
